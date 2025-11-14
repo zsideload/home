@@ -1,7 +1,11 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
 import { tweaks } from "../../lib/info.ts";
 
-module.exports = async ({ github, context, core }: AsyncFunctionArguments) => {
+export default async function ({
+  github,
+  context,
+  core,
+}: AsyncFunctionArguments) {
   const tweakName = context.payload.inputs.tweakName;
   if (typeof tweakName === "string" && tweakName in tweaks) {
     const tweakInfo = tweaks[tweakName as keyof typeof tweaks];
@@ -34,4 +38,4 @@ module.exports = async ({ github, context, core }: AsyncFunctionArguments) => {
     }
   }
   return core.setFailed("1-fork-status failed");
-};
+}

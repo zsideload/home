@@ -1,7 +1,11 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
 import { tweaks } from "../../lib/info.ts";
 
-module.exports = async ({ context, core, github }: AsyncFunctionArguments) => {
+export default async function ({
+  github,
+  context,
+  core,
+}: AsyncFunctionArguments) {
   const tweakName = context.payload.inputs.tweakName;
   const decryptedLink = core.getInput("decrypted_link");
   if (typeof tweakName === "string" && tweakName in tweaks && decryptedLink) {
@@ -20,4 +24,4 @@ module.exports = async ({ context, core, github }: AsyncFunctionArguments) => {
   } else {
     return core.setFailed("3-dispatch-workflow failed");
   }
-};
+}

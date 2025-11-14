@@ -4,7 +4,7 @@ import { sortDesc } from "../../lib/compare.ts";
 import { tweaks } from "../../lib/info.ts";
 import { baseUrl, baseUrlWithBasicAuth } from "../../lib/url.ts";
 
-module.exports = async ({ context, core }: AsyncFunctionArguments) => {
+export default async function ({ context, core }: AsyncFunctionArguments) {
   const tweakName = context.payload.inputs.tweakName;
   const appVersion = context.payload.inputs.appVersion;
   if (
@@ -41,4 +41,4 @@ module.exports = async ({ context, core }: AsyncFunctionArguments) => {
   } else {
     return core.setFailed("2-decrypted-link failed");
   }
-};
+}

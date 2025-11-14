@@ -1,7 +1,11 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
 import { tweaks } from "../../lib/info.ts";
 
-module.exports = async ({ context, core, github }: AsyncFunctionArguments) => {
+export default async function ({
+  github,
+  context,
+  core,
+}: AsyncFunctionArguments) {
   const tweakName = context.payload.inputs.tweakName;
   if (typeof tweakName === "string" && tweakName in tweaks) {
     const tweakInfo = tweaks[tweakName as keyof typeof tweaks];
@@ -25,4 +29,4 @@ module.exports = async ({ context, core, github }: AsyncFunctionArguments) => {
   } else {
     return core.setFailed("4-wait-workflow failed");
   }
-};
+}
