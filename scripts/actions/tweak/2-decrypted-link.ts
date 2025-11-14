@@ -2,21 +2,22 @@ import type { AsyncFunctionArguments } from "@actions/github-script";
 import type { SideloadRepoJson } from "../../generateJson/types.ts";
 import { sortDesc } from "../../lib/compare.ts";
 import { tweaks } from "../../lib/info.ts";
-import { baseUrl, baseUrlWithBasicAuth } from "../../lib/url.ts";
+import { baseUrl } from "../../lib/url.ts";
 
 export default async function ({ context, core }: AsyncFunctionArguments) {
   const tweakName = context.payload.inputs.tweakName;
   const appVersion = context.payload.inputs.appVersion;
-  if (
-    typeof tweakName === "string" &&
-    tweakName in tweaks &&
-    baseUrl &&
-    baseUrlWithBasicAuth
-  ) {
-    core.setSecret(baseUrlWithBasicAuth);
-    const fetchDecrypted = await fetch(
-      `${baseUrlWithBasicAuth}/decrypted.json`,
-    );
+  if (typeof tweakName === "string" && tweakName in tweaks && baseUrl) {
+    core.setSecret(baseUrl);
+    const fetchDecrypted = await fetch(`${baseUrl}/decrypted.json`, {
+      headers: {
+        Authorization:
+          "Basic " +
+          Buffer.from(
+            `${process.env.WEB_USERNAME}:${process.env.WEB_PASSWORD}`,
+          ).toString("base64"),
+      },
+    });
     if (!fetchDecrypted.ok) {
       throw new Error(`HTTP error! status: ${fetchDecrypted.status}`);
     }
