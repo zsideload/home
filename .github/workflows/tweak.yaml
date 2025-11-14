@@ -1,0 +1,51 @@
+name: Tweak App
+run-name: ${{ inputs.tweakName }}
+on:
+  workflow_dispatch:
+    inputs:
+      tweakName:
+        description: tweakName
+        required: true
+        type: choice
+        options:
+          - YTLite
+      appVersion:
+        description: appVersion
+        required: true
+        type: string
+        default: latest
+
+jobs:
+  step-1:
+    name: Step 1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Check fork status
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
+          script: |
+            const { default } = await import('${{ github.workspace }}/scripts/actions/tweak/1-fork-status.ts')
+            await default()
+      - name: Get decrypted link
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
+          script: |
+            const { default } = await import('${{ github.workspace }}/scripts/actions/tweak/2-decrypted-link.ts')
+            await default()
+      - name: Dispatch workflow
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
+          script: |
+            const { default } = await import('${{ github.workspace }}/scripts/actions/tweak/3-dispatch-workflow.ts')
+            await default()
+      - name: Wait workflow run
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
+          script: |
+            const { default } = await import('${{ github.workspace }}/scripts/actions/tweak/4-wait-workflow.ts')
+            await default()
