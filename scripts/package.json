@@ -4,7 +4,6 @@
   "scripts": {},
   "dependencies": {
     "jszip": "^3.10.1",
-    "octokit": "^5.0.5",
     "plist": "^3.1.0"
   },
   "devDependencies": {

@@ -11,6 +11,9 @@ importers:
       hono:
         specifier: ^4.10.5
         version: 4.10.5
+      octokit:
+        specifier: ^5.0.5
+        version: 5.0.5
     devDependencies:
       '@biomejs/biome':
         specifier: 2.3.5
@@ -24,9 +27,6 @@ importers:
       jszip:
         specifier: ^3.10.1
         version: 3.10.1
-      octokit:
-        specifier: ^5.0.5
-        version: 5.0.5
       plist:
         specifier: ^3.1.0
         version: 3.1.0
