@@ -20,7 +20,7 @@ export default async function ({
         assetDirectDownloadURL: decryptedLink,
       }),
     });
-    core.info("Workflow dispatched");
+    return core.info("Workflow dispatched");
   } else {
     return core.setFailed("3-dispatch-workflow failed");
   }
