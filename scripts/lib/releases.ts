@@ -1,4 +1,4 @@
-import { apps, tweaks } from "./info";
+import { apps, tweaks } from "./info.ts";
 
 export const parseReleaseTagName = (name: string) => {
   const splitted = name.split("_");

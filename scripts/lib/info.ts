@@ -1,4 +1,4 @@
-import type { Apps, GitHubRepo, Tweaks } from "./info.types";
+import type { Apps, GitHubRepo, Tweaks } from "./info.types.ts";
 
 export const assetRepo = {
   owner: "xsideload",
