@@ -3,13 +3,13 @@
   "type": "module",
   "scripts": {},
   "dependencies": {
-    "@types/plist": "^3.0.5",
     "jszip": "^3.10.1",
     "octokit": "^5.0.5",
     "plist": "^3.1.0"
   },
   "devDependencies": {
     "@actions/github-script": "github:actions/github-script",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.10.1",
+    "@types/plist": "^3.0.5"
   }
 }
