@@ -29,6 +29,7 @@ jobs:
             const { default: run } = await import('${{ github.workspace }}/scripts/actions/tweak/1-fork-status.ts')
             await run({ github, context, core })
       - name: Get decrypted link
+        id: get_link
         uses: actions/github-script@v8
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
@@ -41,6 +42,8 @@ jobs:
             await run({ github, context, core })
       - name: Dispatch workflow
         uses: actions/github-script@v8
+        env:
+          DECRYPTED_LINK: ${{ steps.get_link.outputs.decrypted_link }}
         with:
           github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
           script: |

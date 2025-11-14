@@ -7,7 +7,7 @@ export default async function ({
   core,
 }: AsyncFunctionArguments) {
   const tweakName = context.payload.inputs.tweakName;
-  const decryptedLink = core.getInput("decrypted_link");
+  const decryptedLink = process.env.DECRYPTED_LINK;
   if (typeof tweakName === "string" && tweakName in tweaks && decryptedLink) {
     core.setSecret(decryptedLink);
     const tweakInfo = tweaks[tweakName as keyof typeof tweaks];
