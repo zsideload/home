@@ -17,7 +17,7 @@ export default async function ({
       const status = compare.data.status;
       if (status === "identical") {
         // upstream is identical to fork
-        core.info("Upstream identical");
+        return core.info("Upstream identical");
       } else if (status === "ahead") {
         // upstream is ahead of fork
         return core.setFailed(
