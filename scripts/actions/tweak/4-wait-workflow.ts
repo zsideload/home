@@ -1,5 +1,5 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
-import { tweaks } from "@/scripts/lib/info";
+import { tweaks } from "../../lib/info";
 
 module.exports = async ({ context, core, github }: AsyncFunctionArguments) => {
 	const tweakName = context.payload.inputs.tweakName;

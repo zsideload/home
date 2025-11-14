@@ -1,8 +1,8 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
 import type { SideloadRepoJson } from "@/scripts/generateJson/types";
-import { sortDesc } from "@/scripts/lib/compare";
-import { tweaks } from "@/scripts/lib/info";
-import { baseUrl, baseUrlWithBasicAuth } from "@/scripts/lib/url";
+import { sortDesc } from "../../lib/compare";
+import { tweaks } from "../../lib/info";
+import { baseUrl, baseUrlWithBasicAuth } from "../../lib/url";
 
 module.exports = async ({ context, core }: AsyncFunctionArguments) => {
 	const tweakName = context.payload.inputs.tweakName;
