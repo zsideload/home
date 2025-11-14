@@ -11,28 +11,32 @@ importers:
       hono:
         specifier: ^4.10.5
         version: 4.10.5
-      octokit:
-        specifier: ^5.0.5
-        version: 5.0.5
     devDependencies:
       '@biomejs/biome':
         specifier: 2.3.5
         version: 2.3.5
-      '@types/node':
-        specifier: ^24.10.1
-        version: 24.10.1
+      wrangler:
+        specifier: ^4.48.0
+        version: 4.48.0
+
+  scripts:
+    dependencies:
       '@types/plist':
         specifier: ^3.0.5
         version: 3.0.5
       jszip:
         specifier: ^3.10.1
         version: 3.10.1
+      octokit:
+        specifier: ^5.0.5
+        version: 5.0.5
       plist:
         specifier: ^3.1.0
         version: 3.1.0
-      wrangler:
-        specifier: ^4.48.0
-        version: 4.48.0
+    devDependencies:
+      '@types/node':
+        specifier: ^24.10.1
+        version: 24.10.1
 
 packages:
 
