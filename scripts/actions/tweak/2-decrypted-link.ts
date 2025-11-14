@@ -8,6 +8,7 @@ export default async function ({ context, core }: AsyncFunctionArguments) {
   const tweakName = context.payload.inputs.tweakName;
   const appVersion = context.payload.inputs.appVersion;
   if (typeof tweakName === "string" && tweakName in tweaks && baseUrl) {
+    const tweakInfo = tweaks[tweakName as keyof typeof tweaks];
     core.setSecret(baseUrl);
     const fetchDecrypted = await fetch(`${baseUrl}/decrypted.json`, {
       headers: {
@@ -22,7 +23,9 @@ export default async function ({ context, core }: AsyncFunctionArguments) {
       throw new Error(`HTTP error! status: ${fetchDecrypted.status}`);
     }
     const data = (await fetchDecrypted.json()) as SideloadRepoJson;
-    const thisAppData = data.apps.filter((app) => app.name === tweakName);
+    const thisAppData = data.apps.filter(
+      (app) => app.name === tweakInfo.appName,
+    );
     let link: string = "";
     if (appVersion === "latest" || !appVersion) {
       const latest = thisAppData
