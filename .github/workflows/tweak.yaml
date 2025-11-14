@@ -26,26 +26,26 @@ jobs:
         with:
           github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
           script: |
-            const { default } = await import('${{ github.workspace }}/scripts/actions/tweak/1-fork-status.ts')
-            await default()
+            const { default: run } = await import('${{ github.workspace }}/scripts/actions/tweak/1-fork-status.ts')
+            await run()
       - name: Get decrypted link
         uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
           script: |
-            const { default } = await import('${{ github.workspace }}/scripts/actions/tweak/2-decrypted-link.ts')
-            await default()
+            const { default: run } = await import('${{ github.workspace }}/scripts/actions/tweak/2-decrypted-link.ts')
+            await run()
       - name: Dispatch workflow
         uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
           script: |
-            const { default } = await import('${{ github.workspace }}/scripts/actions/tweak/3-dispatch-workflow.ts')
-            await default()
+            const { default: run } = await import('${{ github.workspace }}/scripts/actions/tweak/3-dispatch-workflow.ts')
+            await run()
       - name: Wait workflow run
         uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.SCRIPT_GITHUB_TOKEN }}
           script: |
-            const { default } = await import('${{ github.workspace }}/scripts/actions/tweak/4-wait-workflow.ts')
-            await default()
+            const { default: run } = await import('${{ github.workspace }}/scripts/actions/tweak/4-wait-workflow.ts')
+            await run()
