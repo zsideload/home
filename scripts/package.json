@@ -9,6 +9,7 @@
     "plist": "^3.1.0"
   },
   "devDependencies": {
+    "@actions/github-script": "github:actions/github-script",
     "@types/node": "^24.10.1"
   }
 }
