@@ -4,6 +4,7 @@ import { aNewerThanB } from "@/scripts/lib/compare";
 import { apps, type tweaks } from "@/scripts/lib/info";
 import { projectRoot } from "@/scripts/lib/path";
 import { parseAssetName } from "@/scripts/lib/releases";
+import { baseUrl, baseUrlWithBasicAuth } from "@/scripts/lib/url";
 import { parseReleases } from "./parseReleases";
 import type { SideloadRepoJson } from "./types";
 
@@ -22,8 +23,8 @@ async function generateDecryptedJson(
 			bundleIdentifier: appInfo.bundleIdentifier,
 			version: appVersion,
 			localizedDescription: asset.name,
-			downloadURL: "",
-			iconURL: "",
+			downloadURL: `${baseUrlWithBasicAuth}/download/${asset.id}/${asset.name}`,
+			iconURL: `${baseUrl}/icon/${appInfo.bundleIdentifier}.jpg`,
 			versionDate: asset.created_at,
 			size: asset.size,
 		});
@@ -31,7 +32,7 @@ async function generateDecryptedJson(
 	const decryptedJson: SideloadRepoJson = {
 		name: "zsideload decrypted",
 		identifier: "zsideload.decrypted",
-		iconURL: "",
+		iconURL: `${baseUrl}/icon.png`,
 		apps: decryptedApps,
 	};
 	await writeFile(
@@ -63,8 +64,8 @@ async function genereateLatestJson(
 				bundleIdentifier: appInfo.bundleIdentifier,
 				version: `${appVersion}_${tweakVersion}`,
 				localizedDescription: asset.name,
-				downloadURL: "",
-				iconURL: "",
+				downloadURL: `${baseUrlWithBasicAuth}/download/${asset.id}/${asset.name}`,
+				iconURL: `${baseUrl}/icon/${appInfo.bundleIdentifier}.jpg`,
 				versionDate: asset.created_at,
 				size: asset.size,
 			});
@@ -73,7 +74,7 @@ async function genereateLatestJson(
 	const latestJson: SideloadRepoJson = {
 		name: "zsideload latest",
 		identifier: "zsideload.latest",
-		iconURL: "",
+		iconURL: `${baseUrl}/icon.png`,
 		apps: Array.from(latestTweakedAppsMap.values()),
 	};
 	await writeFile(
