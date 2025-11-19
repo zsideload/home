@@ -43,4 +43,33 @@ export const tweaks: Tweaks<typeof apps> = {
         builtFileName.split("_")[1].replace(".ipa", ""),
     },
   },
+  YTMusicUltimate: {
+    appName: "YouTubeMusic",
+    actionRepo: {
+      owner: "zsideload",
+      repo: "YTMusicUltimate",
+      basehead: "main...dayanch96:YTMusicUltimate:main",
+    },
+    workflow: {
+      branch: "main",
+      name: "main.yml",
+      inputs: ({ assetDirectDownloadURL }) => ({
+        ipa_url: assetDirectDownloadURL,
+      }),
+      getTweakVersion: async ({ head_sha }) => {
+        const fetchFile = await fetch(
+          `https://raw.githubusercontent.com/zsideload/YTMusicUltimate/${head_sha}/Makefile`,
+        );
+        if (!fetchFile.ok) {
+          throw new Error(`Response status: ${fetchFile.status}`);
+        }
+        const file = await fetchFile.text();
+
+        const match = file.match(/^\s*PACKAGE_VERSION\s*=\s*(\S+)\s*$/m);
+        if (!match || match.length < 2)
+          throw new Error("Tweak Version Not Found");
+        return match[1];
+      },
+    },
+  },
 } as const;

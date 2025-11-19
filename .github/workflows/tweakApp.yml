@@ -9,6 +9,7 @@ on:
         type: choice
         options:
           - YTLite
+          - YTMusicUltimate
       appVersion:
         description: appVersion
         required: true
