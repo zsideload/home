@@ -28,7 +28,7 @@ jobs:
           github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           script: |
             const { default: run } = await import('${{ github.workspace }}/actions/generateJson/index.ts')
-            await run({ github })
+            return await run({ github })
       - name: Install dependencies
         run: pnpm install --prod --filter web
       - name: Build & Deploy Worker
