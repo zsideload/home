@@ -18,7 +18,7 @@ export const tweaks: Tweaks<typeof apps> = {
   YTLite: {
     appName: "YouTube",
     actionRepo: {
-      owner: "xsideload",
+      owner: "zsideload",
       repo: "YTLite",
       basehead: "main...dayanch96:YTLite:main",
     },
