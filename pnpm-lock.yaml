@@ -12,7 +12,11 @@ catalogs:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      octokit:
+        specifier: 'catalog:'
+        version: 5.0.5
 
   web:
     dependencies:

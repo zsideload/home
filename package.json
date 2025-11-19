@@ -2,5 +2,8 @@
   "name": "home",
   "type": "module",
   "scripts": {},
-  "packageManager": "pnpm@10.18.2"
+  "packageManager": "pnpm@10.18.2",
+  "devDependencies": {
+    "octokit": "catalog:"
+  }
 }
