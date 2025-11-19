@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { octokit } from "../lib/github.ts";
 import { getIpaVersionFilePath } from "../../actions/lib/getIpaVersion.ts";
-import { type apps, assetRepo } from "../../info.ts";
+import { actionRepo, type apps, assetRepo } from "../../info.ts";
 import { resolvePath } from "../../actions/lib/path.ts";
 import { confirm } from "../lib/prompt.ts";
 
@@ -43,4 +43,11 @@ export const uploadDecrypted = async ({
   });
 
   console.log(`Uploaded ${asset.data.name} to ${release.data.html_url}`);
+
+  await octokit.rest.actions.createWorkflowDispatch({
+    ...actionRepo,
+    workflow_id: "generateJsonAndDeploy.yml",
+    ref: "main",
+  });
+  console.log("generateJsonAndDeploy dispatched");
 };
