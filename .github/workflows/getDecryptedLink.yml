@@ -17,7 +17,7 @@ jobs:
   getDecryptedLink:
     runs-on: ubuntu-latest
     outputs:
-      decrypted_link: ${{ steps.run-script.outputs.result }}
+      decrypted_link: ${{ steps.run-script.outputs.decrypted_link }}
     steps:
       - uses: actions/checkout@v5
       - id: run-script
