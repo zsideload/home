@@ -16,8 +16,12 @@ on:
         default: latest
 
 jobs:
+  getDecryptedLink:
+    uses: ./.github/workflows/getDecryptedLink.yml
+    secrets: inherit
   prepareAndDispatch:
     runs-on: ubuntu-latest
+    needs: getDecryptedLink
     outputs:
       head_sha: ${{ steps.run-script.outputs.result }}
     steps:
@@ -28,6 +32,7 @@ jobs:
           WEB_BASE_URL: ${{ secrets.WEB_BASE_URL }}
           WEB_USERNAME: ${{ secrets.WEB_USERNAME }}
           WEB_PASSWORD: ${{ secrets.WEB_PASSWORD }}
+          DECRYPTED_LINK: ${{ needs.getDecryptedLink.outputs.decrypted_link }}
         with:
           github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           result-encoding: string

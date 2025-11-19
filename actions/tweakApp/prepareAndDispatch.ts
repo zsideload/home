@@ -1,8 +1,6 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
 import { tweaks } from "../../info.ts";
-import { webBaseUrl } from "../lib/url.ts";
 import { sortDesc } from "../lib/compare.ts";
-import type { SideloadRepoJson } from "../generateJson/types.ts";
 
 export default async function ({
   github,
@@ -15,11 +13,10 @@ export default async function ({
     return core.setFailed("tweakName invalid");
   }
   const tweakInfo = tweaks[tweakName];
-  const appVersion = context.payload.inputs.appVersion;
-  if (!webBaseUrl) {
-    return core.setFailed("webBaseUrl invalid");
+  const decryptedLink = process.env.DECRYPTED_LINK;
+  if (!decryptedLink) {
+    return core.setFailed("decryptedLink invalid");
   }
-  core.setSecret(webBaseUrl);
   //#endregion
 
   //#region check fork status
@@ -48,43 +45,6 @@ export default async function ({
   } else {
     console.log("no fork");
   }
-  console.log("::endgroup::");
-  //#endregion
-
-  //#region get decrypted link
-  console.log("::group::get decrypted link");
-  const fetchDecrypted = await fetch(`${webBaseUrl}/decrypted.json`, {
-    headers: {
-      Authorization:
-        "Basic " +
-        Buffer.from(
-          `${process.env.WEB_USERNAME}:${process.env.WEB_PASSWORD}`,
-        ).toString("base64"),
-    },
-  });
-  if (!fetchDecrypted.ok) {
-    throw new Error(`HTTP error! status: ${fetchDecrypted.status}`);
-  }
-  const dataFromFetchDecrypted =
-    (await fetchDecrypted.json()) as SideloadRepoJson;
-  const thisAppData = dataFromFetchDecrypted.apps.filter(
-    (app) => app.name === tweakInfo.appName,
-  );
-  let decryptedLink: string = "";
-  if (appVersion === "latest" || !appVersion) {
-    const latest = thisAppData
-      .sort((a, b) => sortDesc(a.version, b.version))
-      .at(0);
-    if (!latest) return core.setFailed("latest appVersion not found");
-    decryptedLink = latest.downloadURL;
-  } else {
-    const specificVersion = thisAppData.find((x) => x.version === appVersion);
-    if (!specificVersion)
-      return core.setFailed(`appVersion ${appVersion} not found`);
-    decryptedLink = specificVersion.downloadURL;
-  }
-  if (!decryptedLink) return core.setFailed("no link");
-  core.setSecret(decryptedLink);
   console.log("::endgroup::");
   //#endregion
 
