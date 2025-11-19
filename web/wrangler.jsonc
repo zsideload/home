@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "web",
+	"name": "zsideload-home",
 	"main": "src/index.ts",
 	"compatibility_date": "2025-11-19",
 	"assets": {
