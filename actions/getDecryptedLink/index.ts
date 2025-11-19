@@ -36,35 +36,36 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
   const thisAppData = dataFromFetchDecrypted.apps.filter(
     (app) => app.name === appName,
   );
-  let decryptedLink: string = "";
+  let myDownloadURL: string = "";
   if (appVersion === "latest" || !appVersion) {
     const latest = thisAppData
       .sort((a, b) => sortDesc(a.version, b.version))
       .at(0);
     if (!latest) return core.setFailed("latest appVersion not found");
-    decryptedLink = latest.downloadURL;
+    myDownloadURL = latest.downloadURL;
   } else {
     const specificVersion = thisAppData.find((x) => x.version === appVersion);
     if (!specificVersion)
       return core.setFailed(`appVersion ${appVersion} not found`);
-    let assetId = specificVersion.downloadURL
-      .match(/\/download\/(\d+)\//)
-      ?.at(1);
-    if (assetId) {
-      const assetRequest = await github.request(
-        "HEAD /repos/{owner}/{repo}/releases/assets/{asset_id}",
-        {
-          ...assetRepo,
-          asset_id: +assetId,
-          headers: {
-            accept: "application/octet-stream",
-          },
+    myDownloadURL = specificVersion.downloadURL;
+  }
+  let decryptedLink;
+  let assetId = myDownloadURL.match(/\/download\/(\d+)\//)?.at(1);
+  if (assetId) {
+    const assetRequest = await github.request(
+      "HEAD /repos/{owner}/{repo}/releases/assets/{asset_id}",
+      {
+        ...assetRepo,
+        asset_id: +assetId,
+        headers: {
+          accept: "application/octet-stream",
         },
-      );
-      decryptedLink = assetRequest.url;
-    }
+      },
+    );
+    decryptedLink = assetRequest.url;
   }
   if (!decryptedLink) return core.setFailed("no link");
+  core.setSecret(decryptedLink);
 
   return decryptedLink;
 }
