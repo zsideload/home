@@ -9,6 +9,9 @@ on:
       appVersion:
         type: string
         default: latest
+    outputs:
+      decrypted_link:
+        value: ${{ jobs.getDecryptedLink.outputs.decrypted_link }}
 
 jobs:
   getDecryptedLink:
