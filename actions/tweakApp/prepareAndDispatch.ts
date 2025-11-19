@@ -71,7 +71,7 @@ export default async function ({
   const fifteenSeconds = 15_000;
   let timeElapsed = 0;
   while (runConclusion !== "success") {
-    console.log(`${timeElapsed++} seconds elapsed`);
+    console.log(`${timeElapsed++ * 15} seconds elapsed`);
     await new Promise((r) => setTimeout(r, fifteenSeconds));
     const listRuns = await github.rest.actions.listWorkflowRuns({
       owner: tweakInfo.actionRepo.owner,
