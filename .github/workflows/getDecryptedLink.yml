@@ -12,8 +12,6 @@ on:
     outputs:
       decrypted_link:
         value: ${{ jobs.getDecryptedLink.outputs.decrypted_link }}
-      test:
-        value: testoutput
 
 jobs:
   getDecryptedLink:

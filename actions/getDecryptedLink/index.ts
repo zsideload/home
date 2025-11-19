@@ -66,6 +66,5 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
   }
   if (!decryptedLink) return core.setFailed("no link");
 
-  core.setOutput("decrypted_link", decryptedLink);
   return decryptedLink;
 }
