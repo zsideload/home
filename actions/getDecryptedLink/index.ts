@@ -5,14 +5,12 @@ import { sortDesc } from "../lib/compare.ts";
 import type { SideloadRepoJson } from "../generateJson/types.ts";
 
 export default async function ({ core }: AsyncFunctionArguments) {
-  let appName = core.getInput("appName");
-  const tweakName = core.getInput("tweakName");
-  const appVersion = core.getInput("appVersion");
-  console.log(">>", appName, tweakName, appVersion);
+  let appName = process.env.APP_NAME;
+  const tweakName = process.env.TWEAK_NAME;
+  const appVersion = process.env.APP_VERSION;
   if (tweakName) {
     appName = tweaks[tweakName].appName;
   }
-  console.log(">>", appName, tweakName, appVersion);
   if (!appName || typeof appName !== "string" || !(appName in apps)) {
     return core.setFailed("appName invalid");
   }
