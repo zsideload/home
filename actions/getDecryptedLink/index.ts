@@ -63,9 +63,10 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
       },
     );
     decryptedLink = assetRequest.url;
+    console.log(assetRequest.url);
   }
   if (!decryptedLink) return core.setFailed("no link");
-  core.setSecret(decryptedLink);
+  console.log(decryptedLink);
 
   return decryptedLink;
 }
