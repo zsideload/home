@@ -1,10 +1,10 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
-import { apps, tweaks } from "../../info.ts";
+import { apps, assetRepo, tweaks } from "../../info.ts";
 import { webBaseUrl } from "../lib/url.ts";
 import { sortDesc } from "../lib/compare.ts";
 import type { SideloadRepoJson } from "../generateJson/types.ts";
 
-export default async function ({ core }: AsyncFunctionArguments) {
+export default async function ({ github, core }: AsyncFunctionArguments) {
   let appName = process.env.APP_NAME;
   const tweakName = process.env.TWEAK_NAME;
   const appVersion = process.env.APP_VERSION;
@@ -47,7 +47,22 @@ export default async function ({ core }: AsyncFunctionArguments) {
     const specificVersion = thisAppData.find((x) => x.version === appVersion);
     if (!specificVersion)
       return core.setFailed(`appVersion ${appVersion} not found`);
-    decryptedLink = specificVersion.downloadURL;
+    let assetId = specificVersion.downloadURL
+      .match(/\/download\/(\d+)\//)
+      ?.at(1);
+    if (assetId) {
+      const assetRequest = await github.request(
+        "HEAD /repos/{owner}/{repo}/releases/assets/{asset_id}",
+        {
+          ...assetRepo,
+          asset_id: +assetId,
+          headers: {
+            accept: "application/octet-stream",
+          },
+        },
+      );
+      decryptedLink = assetRequest.url;
+    }
   }
   if (!decryptedLink) return core.setFailed("no link");
   core.setSecret(decryptedLink);
