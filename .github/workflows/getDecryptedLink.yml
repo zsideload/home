@@ -1,0 +1,29 @@
+name: Get decrypted app link
+on:
+  workflow_call:
+    inputs:
+      appName:
+        type: string
+        required: true
+      appVersion:
+        type: string
+        default: latest
+
+jobs:
+  getDecryptedLink:
+    runs-on: ubuntu-latest
+    outputs:
+      head_sha: ${{ steps.run-script.outputs.result }}
+    steps:
+      - id: run-script
+        uses: actions/github-script@v8
+        env:
+          WEB_BASE_URL: ${{ secrets.WEB_BASE_URL }}
+          WEB_USERNAME: ${{ secrets.WEB_USERNAME }}
+          WEB_PASSWORD: ${{ secrets.WEB_PASSWORD }}
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { default: run } = await import('${{ github.workspace }}/actions/getDecryptedLink/index.ts')
+            return await run({ github })
