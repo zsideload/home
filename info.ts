@@ -1,5 +1,10 @@
 import type { Apps, GitHubRepo, Tweaks } from "./info.types.ts";
 
+export const actionRepo = {
+  owner: "zsideload",
+  repo: "home",
+} as const satisfies GitHubRepo;
+
 export const assetRepo = {
   owner: "zsideload",
   repo: "assets",
