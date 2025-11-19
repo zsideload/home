@@ -41,7 +41,7 @@ jobs:
           result-encoding: string
           script: |
             const { default: run } = await import('${{ github.workspace }}/actions/tweakApp/prepareAndDispatch.ts')
-            return await run({ github })
+            return await run({ github, context, core })
   downloadAndUpload:
     runs-on: ubuntu-latest
     needs: prepareAndDispatch
