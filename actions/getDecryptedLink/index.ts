@@ -8,9 +8,11 @@ export default async function ({ core }: AsyncFunctionArguments) {
   let appName = core.getInput("appName");
   const tweakName = core.getInput("tweakName");
   const appVersion = core.getInput("appVersion");
+  console.log(">>", appName, tweakName, appVersion);
   if (tweakName) {
     appName = tweaks[tweakName].appName;
   }
+  console.log(">>", appName, tweakName, appVersion);
   if (!appName || typeof appName !== "string" || !(appName in apps)) {
     return core.setFailed("appName invalid");
   }
