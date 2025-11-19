@@ -30,7 +30,7 @@ jobs:
             const { default: run } = await import('${{ github.workspace }}/actions/generateJson/index.ts')
             return await run({ github })
       - name: Install dependencies
-        run: pnpm install --prod --filter web
+        run: pnpm install --filter web
       - name: Build & Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
