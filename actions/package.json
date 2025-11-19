@@ -1,0 +1,8 @@
+{
+  "name": "actions",
+  "type": "module",
+  "devDependencies": {
+    "@actions/github-script": "github:actions/github-script",
+    "@types/node": "catalog:"
+  }
+}

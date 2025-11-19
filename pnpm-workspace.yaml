@@ -1,7 +1,9 @@
 packages:
+  - actions
   - web
 
 catalog:
+  "@types/node": ^24.10.1
   octokit: ^5.0.5
 
 onlyBuiltDependencies:
