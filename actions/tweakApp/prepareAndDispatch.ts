@@ -16,6 +16,9 @@ export default async function ({
   }
   const tweakInfo = tweaks[tweakName];
   const appVersion = context.payload.inputs.appVersion;
+  if (!webBaseUrl) {
+    return core.setFailed("webBaseUrl invalid");
+  }
   core.setSecret(webBaseUrl);
   //#endregion
 
