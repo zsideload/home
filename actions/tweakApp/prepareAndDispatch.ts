@@ -36,13 +36,13 @@ export default async function ({
     } else if (status === "ahead") {
       return core.setFailed(
         "upstream is ahead of fork \n" +
-        `https://github.com/${tweakInfo.actionRepo.owner}/${tweakInfo.actionRepo.repo}/` +
-        `compare/${encodeURIComponent(tweakInfo.actionRepo.basehead)}`,
+          `https://github.com/${tweakInfo.actionRepo.owner}/${tweakInfo.actionRepo.repo}/` +
+          `compare/${encodeURIComponent(tweakInfo.actionRepo.basehead)}`,
       );
     } else {
       return core.setFailed(
         `other status (${status}) \n` +
-        `https://github.com/${tweakInfo.actionRepo.owner}/${tweakInfo.actionRepo.repo}/`,
+          `https://github.com/${tweakInfo.actionRepo.owner}/${tweakInfo.actionRepo.repo}/`,
       );
     }
   } else {
