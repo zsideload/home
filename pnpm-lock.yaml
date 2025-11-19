@@ -55,6 +55,25 @@ importers:
         specifier: 'catalog:'
         version: 3.0.5
 
+  scripts:
+    dependencies:
+      jszip:
+        specifier: 'catalog:'
+        version: 3.10.1
+      octokit:
+        specifier: 'catalog:'
+        version: 5.0.5
+      plist:
+        specifier: 'catalog:'
+        version: 3.1.0
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.10.1
+      '@types/plist':
+        specifier: 'catalog:'
+        version: 3.0.5
+
   web:
     dependencies:
       hono:
