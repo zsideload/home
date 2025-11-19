@@ -28,4 +28,4 @@ jobs:
           result-encoding: string
           script: |
             const { default: run } = await import('${{ github.workspace }}/actions/getDecryptedLink/index.ts')
-            return await run({ github })
+            return await run({ core })
