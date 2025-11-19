@@ -4,10 +4,10 @@ import { webBaseUrl } from "../lib/url.ts";
 import { sortDesc } from "../lib/compare.ts";
 import type { SideloadRepoJson } from "../generateJson/types.ts";
 
-export default async function ({ context, core }: AsyncFunctionArguments) {
-  let appName = context.payload.inputs.appName;
-  const tweakName = context.payload.inputs.tweakName;
-  const appVersion = context.payload.inputs.appVersion;
+export default async function ({ core }: AsyncFunctionArguments) {
+  let appName = core.getInput("appName");
+  const tweakName = core.getInput("tweakName");
+  const appVersion = core.getInput("appVersion");
   if (tweakName && !appName) {
     appName = tweaks[tweakName].appName;
   }
