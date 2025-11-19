@@ -9,9 +9,18 @@ catalogs:
     '@types/node':
       specifier: ^24.10.1
       version: 24.10.1
+    '@types/plist':
+      specifier: ^3.0.5
+      version: 3.0.5
+    jszip:
+      specifier: ^3.10.1
+      version: 3.10.1
     octokit:
       specifier: ^5.0.5
       version: 5.0.5
+    plist:
+      specifier: ^3.1.0
+      version: 3.1.0
 
 importers:
 
@@ -24,10 +33,10 @@ importers:
   actions:
     dependencies:
       jszip:
-        specifier: ^3.10.1
+        specifier: 'catalog:'
         version: 3.10.1
       plist:
-        specifier: ^3.1.0
+        specifier: 'catalog:'
         version: 3.1.0
     devDependencies:
       '@actions/github-script':
@@ -37,7 +46,7 @@ importers:
         specifier: 'catalog:'
         version: 24.10.1
       '@types/plist':
-        specifier: ^3.0.5
+        specifier: 'catalog:'
         version: 3.0.5
 
   web:

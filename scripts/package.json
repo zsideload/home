@@ -1,13 +1,13 @@
 {
-  "name": "actions",
+  "name": "scripts",
   "type": "module",
   "devDependencies": {
-    "@actions/github-script": "github:actions/github-script",
     "@types/node": "catalog:",
     "@types/plist": "catalog:"
   },
   "dependencies": {
     "jszip": "catalog:",
+    "octokit": "catalog:",
     "plist": "catalog:"
   }
 }
