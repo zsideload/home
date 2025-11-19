@@ -1,0 +1,40 @@
+name: Generate JSON and Deploy
+on:
+  workflow_dispatch:
+  workflow_call:
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: "generate-and-deploy-limiter"
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --prod --filter actions
+      - name: Generate JSON
+        uses: actions/github-script@v8
+        env:
+          WEB_BASE_URL: ${{ secrets.WEB_BASE_URL }}
+          WEB_USERNAME: ${{ secrets.WEB_USERNAME }}
+          WEB_PASSWORD: ${{ secrets.WEB_PASSWORD }}
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          script: |
+            const { default: run } = await import('${{ github.workspace }}/actions/generateJson/index.ts')
+            await run({ github })
+      - name: Install dependencies
+        run: pnpm install --prod --filter web
+      - name: Build & Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --minify
+          workingDirectory: web
