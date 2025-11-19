@@ -3,13 +3,15 @@ import { parseArgs } from "node:util";
 import { octokit } from "../lib/github.ts";
 import { getIpaVersionFilePath } from "../../actions/lib/getIpaVersion.ts";
 import { type apps, assetRepo } from "../../info.ts";
-import { basename, resolvePath } from "../../actions/lib/path.ts";
+import { resolvePath } from "../../actions/lib/path.ts";
 import { confirm } from "../lib/prompt.ts";
 
 export const uploadDecrypted = async ({
   appName,
+  optionalNotes,
 }: {
   appName: keyof typeof apps;
+  optionalNotes?: string;
 }) => {
   const { positionals } = parseArgs({ allowPositionals: true });
   if (positionals.length !== 1) throw new Error("Missing file path");
@@ -34,7 +36,9 @@ export const uploadDecrypted = async ({
   const asset = await octokit.rest.repos.uploadReleaseAsset({
     ...assetRepo,
     release_id: release.data.id,
-    name: basename(filePath),
+    name: optionalNotes
+      ? `${appName}_${ipaVersion}_${optionalNotes}.ipa`
+      : `${appName}_${ipaVersion}.ipa`,
     data: readFileSync(filePath) as unknown as string,
   });
 
