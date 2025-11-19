@@ -1,12 +1,16 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
-import { apps } from "../../info.ts";
+import { apps, tweaks } from "../../info.ts";
 import { webBaseUrl } from "../lib/url.ts";
 import { sortDesc } from "../lib/compare.ts";
 import type { SideloadRepoJson } from "../generateJson/types.ts";
 
 export default async function ({ context, core }: AsyncFunctionArguments) {
-  const appName = context.payload.inputs.appName;
+  let appName = context.payload.inputs.appName;
+  const tweakName = context.payload.inputs.tweakName;
   const appVersion = context.payload.inputs.appVersion;
+  if (tweakName && !appName) {
+    appName = tweaks[tweakName].appName;
+  }
   if (!appName || typeof appName !== "string" || !(appName in apps)) {
     return core.setFailed("appName invalid");
   }

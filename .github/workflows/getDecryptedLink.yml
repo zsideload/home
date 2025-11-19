@@ -4,7 +4,8 @@ on:
     inputs:
       appName:
         type: string
-        required: true
+      tweakName:
+        type: string
       appVersion:
         type: string
         default: latest
@@ -15,6 +16,7 @@ jobs:
     outputs:
       head_sha: ${{ steps.run-script.outputs.result }}
     steps:
+      - uses: actions/checkout@v5
       - id: run-script
         uses: actions/github-script@v8
         env:

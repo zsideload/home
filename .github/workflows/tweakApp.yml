@@ -19,6 +19,9 @@ jobs:
   getDecryptedLink:
     uses: ./.github/workflows/getDecryptedLink.yml
     secrets: inherit
+    with:
+      tweakName: ${{ inputs.tweakName }}
+      appVersion: ${{ inputs.appVersion }}
   prepareAndDispatch:
     runs-on: ubuntu-latest
     needs: getDecryptedLink
