@@ -1,0 +1,78 @@
+name: iNKillerPlus1
+on:
+  workflow_dispatch:
+    inputs:
+      appVersion:
+        description: appVersion
+        required: true
+        type: string
+        default: auto
+jobs:
+  make-ipa:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --prod --filter actions
+      - id: getVersion
+        uses: actions/github-script@v8
+        if: ${{ inputs.appVersion == 'auto'}}
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { default: run } = await import('${{ github.workspace }}/actions/inkillerplus1/getVersion.ts')
+            return await run({ github, context, core })
+      - id: getDecryptedLink
+        uses: actions/github-script@v8
+        env:
+          APP_NAME: Instagram
+          APP_VERSION: ${{ inputs.appVersion == 'auto' && steps.getVersion.outputs.result || inputs.appVersion }}
+          WEB_BASE_URL: ${{ secrets.WEB_BASE_URL }}
+          WEB_USERNAME: ${{ secrets.WEB_USERNAME }}
+          WEB_PASSWORD: ${{ secrets.WEB_PASSWORD }}
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { default: run } = await import('${{ github.workspace }}/actions/getDecryptedLink/index.ts')
+            return await run({ github, context, core })
+      - name: Download IPA
+        run: curl -L -o "${{ github.workspace }}/decrypted.ipa" "${{ steps.getDecryptedLink.outputs.result }}"
+      - name: Install Dependencies
+        run: brew install make ldid
+      - name: Set PATH environment variable
+        run: echo "$(brew --prefix make)/libexec/gnubin" >> "$GITHUB_PATH"
+      - name: Install cyan
+        run: pipx install --force https://github.com/asdfzxcvbn/pyzule-rw/archive/main.zip
+      - name: Download tweak
+        env:
+          GH_TOKEN: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+        run: |
+          repo_name=zsideload/iNKillerPlus1
+          tag_name=$(gh release view --repo $repo_name --json tagName --jq ".tagName")
+          echo "TWEAK_TAG=$tag_name" >> "$GITHUB_ENV"
+          gh release download --repo $repo_name --pattern "*.deb" --output "${{ github.workspace }}/tweak.deb"
+          gh release download --repo $repo_name data --pattern "iNKPlusCrack.dylib"
+      - name: Inject tweaks into IPA
+        run: cyan -i decrypted.ipa -o "app_$TWEAK_TAG.ipa" -c 9 -f tweak.deb iNKPlusCrack.dylib
+      - uses: actions/github-script@v8
+        env:
+          TWEAK_NAME: iNKillerPlus1
+          FILE_PATH: ${{ github.workspace }}/app_${{ env.TWEAK_TAG }}.ipa
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { default: run } = await import('${{ github.workspace }}/actions/uploadTweakApp/index.ts')
+            return await run({ github, context, core })
+  generateJsonAndDeploy:
+    needs: make-ipa
+    uses: ./.github/workflows/generateJsonAndDeploy.yml
+    secrets: inherit
