@@ -1,4 +1,5 @@
 import { webBaseUrl } from "../../actions/lib/url.ts";
+import { aNewerThanB } from "../../actions/lib/compare.ts";
 import type { SideloadRepoJson } from "../../actions/generateJson/types.ts";
 import { apps } from "../../info.ts";
 
@@ -14,16 +15,12 @@ const getAppstoreInfo = async (bundleIdentifier: string) => {
     return { version: results[0].version, url: results[0].trackViewUrl };
 };
 
-const compareOutdated = (
-  appName: string,
-  version: string,
-  latestVersion: string,
-) => {
+const compareANewerThanB = (appName: string, a: string, b: string) => {
   const skipList = ["Apollo"];
   if (skipList.includes(appName)) {
     return;
   }
-  if (version !== latestVersion) {
+  if (aNewerThanB(a, b)) {
     return "✓";
   }
   return;
@@ -41,6 +38,18 @@ const fetchDecryptedLatest = await fetch(`${webBaseUrl}/decryptedlatest.json`, {
 if (!fetchDecryptedLatest.ok) throw new Error("error fetching");
 const decryptedlatest = (await fetchDecryptedLatest.json()) as SideloadRepoJson;
 
+const fetchTweakedLatest = await fetch(`${webBaseUrl}/tweakedlatest.json`, {
+  headers: {
+    Authorization:
+      "Basic " +
+      Buffer.from(
+        `${process.env.WEB_USERNAME}:${process.env.WEB_PASSWORD}`,
+      ).toString("base64"),
+  },
+});
+if (!fetchTweakedLatest.ok) throw new Error("error fetching");
+const tweakedlatest = (await fetchTweakedLatest.json()) as SideloadRepoJson;
+
 const resultTable = [];
 
 for (const appName of Object.keys(apps)) {
@@ -49,28 +58,33 @@ for (const appName of Object.keys(apps)) {
   const decryptedInfo = decryptedlatest.apps.find(
     (x) => x.bundleIdentifier === appInfo.bundleIdentifier,
   );
+  const tweakedInfo = tweakedlatest.apps.find(
+    (x) => x.bundleIdentifier === appInfo.bundleIdentifier,
+  );
   const appStoreInfo = await getAppstoreInfo(appInfo.bundleIdentifier);
-  if (decryptedInfo && appStoreInfo) {
-    resultTable.push({
-      app: appName,
-      version: decryptedInfo.version,
-      latestVersion: appStoreInfo.version,
-      outdated: compareOutdated(
-        appName,
-        decryptedInfo.version,
-        appStoreInfo.version,
-      ),
-      url: appStoreInfo.url,
-    });
-  } else {
-    resultTable.push({
-      app: appName,
-      version: undefined,
-      latestVersion: appStoreInfo?.version,
-      outdated: undefined,
-      url: appStoreInfo?.url,
-    });
-  }
+  resultTable.push({
+    app: appName,
+    appstore: appStoreInfo?.version,
+    decrypted: decryptedInfo?.version,
+    d_outdated:
+      decryptedInfo && appStoreInfo
+        ? compareANewerThanB(
+            appName,
+            appStoreInfo.version,
+            decryptedInfo.version,
+          )
+        : undefined,
+    tweaked: tweakedInfo?.version.split("_")[0],
+    t_outdated:
+      tweakedInfo && appStoreInfo
+        ? compareANewerThanB(
+            appName,
+            appStoreInfo.version,
+            tweakedInfo.version.split("_")[0],
+          )
+        : undefined,
+    url: appStoreInfo?.url.replace("?uo=4", ""),
+  });
 }
 
 console.table(resultTable);
