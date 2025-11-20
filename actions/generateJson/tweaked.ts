@@ -12,7 +12,7 @@ import type { SideloadRepoJson } from "./types.ts";
  * `tweaked.json` = tweaked apps; all versions
  * `tweakedlatest.json` = tweaked apps; latest versions
  */
-export async function genereateLatestJson(
+export async function genereateTweakedJsons(
   tweakedAssets: Awaited<ReturnType<typeof parseReleases>>["tweakedAssets"],
 ) {
   const tweakedApps: SideloadRepoJson["apps"] = [];

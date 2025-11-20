@@ -12,7 +12,7 @@ import { aNewerThanB, sortDesc } from "../lib/compare.ts";
  * `decrypted.json` = decrypted apps; all versions
  * `decryptedlatest.json` = decrypted apps; latest versions
  */
-export async function generateDecryptedJson(
+export async function generateDecryptedJsons(
   decryptedAssets: Awaited<ReturnType<typeof parseReleases>>["decryptedAssets"],
 ) {
   const decryptedApps: SideloadRepoJson["apps"] = [];
