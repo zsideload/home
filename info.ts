@@ -11,11 +11,23 @@ export const assetRepo = {
 } as const satisfies GitHubRepo;
 
 export const apps = {
+  Apollo: {
+    bundleIdentifier: "com.christianselig.Apollo",
+  },
+  Facebook: {
+    bundleIdentifier: "com.facebook.Facebook",
+  },
+  Instagram: {
+    bundleIdentifier: "com.burbn.instagram",
+  },
   YouTube: {
     bundleIdentifier: "com.google.ios.youtube",
   },
   YouTubeMusic: {
     bundleIdentifier: "com.google.ios.youtubemusic",
+  },
+  X: {
+    bundleIdentifier: "com.atebits.Tweetie2",
   },
 } as const satisfies Apps;
 
