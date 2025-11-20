@@ -6,6 +6,7 @@ import { webBaseUrl, webBaseUrlWithBasicAuth } from "../lib/url.ts";
 import { projectRoot } from "../lib/path.ts";
 import type { parseReleases } from "./parseReleases.ts";
 import type { SideloadRepoJson } from "./types.ts";
+import { sortDesc } from "../lib/compare.ts";
 
 /**
  * `decrypted.json` = decrypted apps; all versions
@@ -32,7 +33,9 @@ export async function generateDecryptedJson(
     name: "zsideload decrypted",
     identifier: "zsideload.decrypted",
     iconURL: `${webBaseUrl}/icon.png`,
-    apps: decryptedApps,
+    apps: decryptedApps.toSorted((a, b) =>
+      sortDesc(a.versionDate, b.versionDate),
+    ),
   };
   await writeFile(
     pathJoin(projectRoot, "./generated/decrypted.json"),

@@ -2,7 +2,7 @@ import { writeFile } from "node:fs/promises";
 import { join as pathJoin } from "node:path";
 import { apps, type tweaks } from "../../info.ts";
 import { parseAssetName } from "../lib/releaseNames.ts";
-import { aNewerThanB } from "../lib/compare.ts";
+import { aNewerThanB, sortDesc } from "../lib/compare.ts";
 import { webBaseUrl, webBaseUrlWithBasicAuth } from "../lib/url.ts";
 import { projectRoot } from "../lib/path.ts";
 import type { parseReleases } from "./parseReleases.ts";
@@ -41,7 +41,9 @@ export async function genereateLatestJson(
     name: "zsideload latest",
     identifier: "zsideload.latest",
     iconURL: `${webBaseUrl}/icon.png`,
-    apps: Array.from(latestTweakedAppsMap.values()),
+    apps: Array.from(latestTweakedAppsMap.values()).toSorted((a, b) =>
+      sortDesc(a.versionDate, b.versionDate),
+    ),
   };
   await writeFile(
     pathJoin(projectRoot, "./generated/latest.json"),
