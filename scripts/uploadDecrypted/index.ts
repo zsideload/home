@@ -3,7 +3,7 @@ import { parseArgs } from "node:util";
 import { octokit } from "../lib/github.ts";
 import { getIpaVersionFilePath } from "../../actions/lib/getIpaVersion.ts";
 import { actionRepo, type apps, assetRepo } from "../../info.ts";
-import { resolvePath } from "../../actions/lib/path.ts";
+import { basename, resolvePath } from "../../actions/lib/path.ts";
 import { confirm } from "../lib/prompt.ts";
 
 export const uploadDecrypted = async ({
@@ -20,9 +20,16 @@ export const uploadDecrypted = async ({
   const filePath = resolvePath(filePathArgument);
   const ipaVersion = await getIpaVersionFilePath(filePath);
   const tagName = `${appName}_${ipaVersion}`;
+  if (basename(filePath).includes("eeveedecrypter")) {
+    optionalNotes = "eeveedecrypter";
+  }
+  const fileName = optionalNotes
+    ? `${appName}_${ipaVersion}_${optionalNotes}.ipa`
+    : `${appName}_${ipaVersion}.ipa`;
 
   console.log("- Creating release", tagName);
   console.log("- Uploading", filePath);
+  console.log("- Renaming", fileName);
   console.log();
   await confirm();
 
@@ -36,9 +43,7 @@ export const uploadDecrypted = async ({
   const asset = await octokit.rest.repos.uploadReleaseAsset({
     ...assetRepo,
     release_id: release.data.id,
-    name: optionalNotes
-      ? `${appName}_${ipaVersion}_${optionalNotes}.ipa`
-      : `${appName}_${ipaVersion}.ipa`,
+    name: fileName,
     data: readFileSync(filePath) as unknown as string,
   });
 
