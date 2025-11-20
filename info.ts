@@ -104,7 +104,7 @@ export const tweaks: Tweaks<typeof apps> = {
   FacebookGlow: {
     appName: "Facebook",
     actionRepo: {
-      owner: "xsideload",
+      owner: "zsideload",
       repo: "Glow",
       basehead: "main...dayanch96:Glow:main",
     },
