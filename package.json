@@ -1,7 +1,16 @@
 {
   "name": "home",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "icons": "node scripts/downloadIcons/index.ts",
+    "outdated": "node --env-file .env scripts/checkOutdated/index.ts",
+    "decrypted:apollo": "node --env-file .env scripts/uploadDecrypted/index.ts Apollo",
+    "decrypted:facebook": "node --env-file .env scripts/uploadDecrypted/index.ts Facebook",
+    "decrypted:instagram": "node --env-file .env scripts/uploadDecrypted/index.ts Instagram",
+    "decrypted:x": "node --env-file .env scripts/uploadDecrypted/index.ts X",
+    "decrypted:youtube": "node --env-file .env scripts/uploadDecrypted/index.ts YouTube",
+    "decrypted:youtubemusic": "node --env-file .env scripts/uploadDecrypted/index.ts YouTubeMusic"
+  },
   "packageManager": "pnpm@10.18.2",
   "devDependencies": {
     "@tsconfig/node-lts": "^22.0.4",
