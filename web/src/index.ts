@@ -2,6 +2,7 @@ import { Hono } from "hono";
 import { basicAuth } from "hono/basic-auth";
 import { Octokit } from "octokit";
 import decryptedJson from "../../generated/decrypted.json" with { type: "json" };
+import decryptedLatestJson from "../../generated/decryptedlatest.json" with { type: "json" };
 import latestJson from "../../generated/latest.json" with { type: "json" };
 import { assetRepo } from "../../info";
 
@@ -53,6 +54,10 @@ app.get("/latest.json", async (c) => {
 
 app.get("/decrypted.json", async (c) => {
   return c.json(decryptedJson);
+});
+
+app.get("/decryptedlatest.json", async (c) => {
+  return c.json(decryptedLatestJson);
 });
 
 app.get("/download/:id/:name?", async (c) => {
