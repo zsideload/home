@@ -84,4 +84,38 @@ export const tweaks: Tweaks<typeof apps> = {
       },
     },
   },
+  BHTwitter: {
+    appName: "X",
+    actionRepo: {
+      owner: "zsideload",
+      repo: "BHTwitter",
+      basehead: "master...BandarHL:BHTwitter:master",
+    },
+    workflow: {
+      branch: "master",
+      name: "build.yml",
+      inputs: ({ assetDirectDownloadURL }) => ({
+        decrypted_ipa_url: assetDirectDownloadURL,
+      }),
+      getTweakVersion: async ({ builtFileName }) =>
+        builtFileName.split("_")[1].replace(".ipa", ""),
+    },
+  },
+  FacebookGlow: {
+    appName: "Facebook",
+    actionRepo: {
+      owner: "xsideload",
+      repo: "Glow",
+      basehead: "main...dayanch96:Glow:main",
+    },
+    workflow: {
+      branch: "main",
+      name: "main.yml",
+      inputs: ({ assetDirectDownloadURL }) => ({
+        ipa_url: assetDirectDownloadURL,
+      }),
+      getTweakVersion: async ({ builtFileName }) =>
+        builtFileName.split("_")[2].replace(".ipa", "").replace("v", ""),
+    },
+  },
 } as const;
