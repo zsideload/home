@@ -1,0 +1,59 @@
+name: Apollo
+on:
+  workflow_dispatch:
+jobs:
+  make-ipa:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - id: getDecryptedLink
+        uses: actions/github-script@v8
+        env:
+          APP_NAME: Apollo
+          APP_VERSION: 1.15.11
+          WEB_BASE_URL: ${{ secrets.WEB_BASE_URL }}
+          WEB_USERNAME: ${{ secrets.WEB_USERNAME }}
+          WEB_PASSWORD: ${{ secrets.WEB_PASSWORD }}
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { default: run } = await import('${{ github.workspace }}/actions/getDecryptedLink/index.ts')
+            return await run({ github, context, core })
+      - name: Download IPA
+        run: curl -L -o ${{ github.workspace }}/decrypted.ipa ${{ steps.getDecryptedLink.outputs.result }}
+      - uses: actions/checkout@v5
+        with:
+          repository: zsideload/Apollo-ImprovedCustomApi
+          path: ApolloICA
+      - name: Install Dependencies
+        run: brew install make ldid
+      - name: Set PATH environment variable
+        run: echo "$(brew --prefix make)/libexec/gnubin" >> "$GITHUB_PATH"
+      - name: Install cyan
+        run: pipx install --force https://github.com/asdfzxcvbn/pyzule-rw/archive/main.zip
+      - name: Download Tweak
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          tag_name=$(gh release view --repo JeffreyCA/Apollo-ImprovedCustomApi --json tagName --jq ".tagName")
+          echo "TWEAK_TAG=$tag_name" >> "$GITHUB_ENV"
+          gh release download --repo JeffreyCA/Apollo-ImprovedCustomApi --pattern "*rootless.deb" --output ${{ github.workspace }}/tweak.deb
+      - name: Inject tweaks into IPA
+        run: cyan -i decrypted.ipa -o App_${{ env.TWEAK_TAG }}.ipa -uwef tweak.deb -s
+      - name: Liquid Glass
+        id: liquid_glass
+        run: |
+          mydir=${{ github.workspace }}/ApolloICA
+          chmod +x $mydir/liquid_glass.sh
+          $mydir/liquid_glass.sh "App_${{ env.TWEAK_TAG }}.ipa" -o "AppLG_${{ env.TWEAK_TAG }}.ipa"
+      - uses: actions/github-script@v8
+        env:
+          TWEAK_NAME: ApolloICA
+          FILE_PATH: ${{ github.workspace }}/AppLG_${{ env.TWEAK_TAG }}.ipa
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { default: run } = await import('${{ github.workspace }}/actions/uploadTweakApp/index.ts')
+            return await run({ github, context, core })
