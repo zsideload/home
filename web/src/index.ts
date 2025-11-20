@@ -3,7 +3,8 @@ import { basicAuth } from "hono/basic-auth";
 import { Octokit } from "octokit";
 import decryptedJson from "../../generated/decrypted.json" with { type: "json" };
 import decryptedLatestJson from "../../generated/decryptedlatest.json" with { type: "json" };
-import latestJson from "../../generated/latest.json" with { type: "json" };
+import tweakedJson from "../../generated/tweaked.json" with { type: "json" };
+import tweakedLatestJson from "../../generated/tweakedlatest.json" with { type: "json" };
 import { assetRepo } from "../../info";
 
 const app = new Hono<{
@@ -48,8 +49,12 @@ app.use(
   },
 );
 
-app.get("/latest.json", async (c) => {
-  return c.json(latestJson);
+app.get("/tweaked.json", async (c) => {
+  return c.json(tweakedJson);
+});
+
+app.get("/tweakedlatest.json", async (c) => {
+  return c.json(tweakedLatestJson);
 });
 
 app.get("/decrypted.json", async (c) => {

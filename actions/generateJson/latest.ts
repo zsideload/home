@@ -9,11 +9,13 @@ import type { parseReleases } from "./parseReleases.ts";
 import type { SideloadRepoJson } from "./types.ts";
 
 /**
- * `latest.json` = tweaked apps; latest versions
+ * `tweaked.json` = tweaked apps; all versions
+ * `tweakedlatest.json` = tweaked apps; latest versions
  */
 export async function genereateLatestJson(
   tweakedAssets: Awaited<ReturnType<typeof parseReleases>>["tweakedAssets"],
 ) {
+  const tweakedApps: SideloadRepoJson["apps"] = [];
   const latestTweakedAppsMap = new Map<
     keyof typeof tweaks,
     SideloadRepoJson["apps"][number]
@@ -23,31 +25,50 @@ export async function genereateLatestJson(
       parseAssetName(asset.name);
     if (type !== "tweaked") throw new Error("asset not tweaked");
     const appInfo = apps[appName];
+    const appJson = {
+      name: tweakName,
+      bundleIdentifier: appInfo.bundleIdentifier,
+      version: `${appVersion}_${tweakVersion}`,
+      localizedDescription: asset.name,
+      downloadURL: `${webBaseUrlWithBasicAuth}/download/${asset.id}/${asset.name}`,
+      iconURL: `${webBaseUrl}/icon/${appInfo.bundleIdentifier}.jpg`,
+      versionDate: asset.created_at,
+      size: asset.size,
+    };
+    // all versions
+    tweakedApps.push(appJson);
+    // latest version
     const current = latestTweakedAppsMap.get(tweakName);
     if (aNewerThanB(asset.name, current?.localizedDescription || "")) {
-      latestTweakedAppsMap.set(tweakName, {
-        name: tweakName,
-        bundleIdentifier: appInfo.bundleIdentifier,
-        version: `${appVersion}_${tweakVersion}`,
-        localizedDescription: asset.name,
-        downloadURL: `${webBaseUrlWithBasicAuth}/download/${asset.id}/${asset.name}`,
-        iconURL: `${webBaseUrl}/icon/${appInfo.bundleIdentifier}.jpg`,
-        versionDate: asset.created_at,
-        size: asset.size,
-      });
+      latestTweakedAppsMap.set(tweakName, appJson);
     }
   }
-  const latestJson: SideloadRepoJson = {
-    name: "zsideload latest",
-    identifier: "zsideload.latest",
+
+  const tweakedJson: SideloadRepoJson = {
+    name: "zsideload tweaked",
+    identifier: "zsideload.tweaked",
+    iconURL: `${webBaseUrl}/icon.png`,
+    apps: tweakedApps.toSorted((a, b) =>
+      sortDesc(a.versionDate, b.versionDate),
+    ),
+  };
+  await writeFile(
+    pathJoin(projectRoot, "./generated/tweaked.json"),
+    JSON.stringify(tweakedJson),
+  );
+  console.log("Wrote to generated/tweaked.json");
+
+  const latestTweakedJson: SideloadRepoJson = {
+    name: "zsideload latest tweaked",
+    identifier: "zsideload.tweaked.latest",
     iconURL: `${webBaseUrl}/icon.png`,
     apps: Array.from(latestTweakedAppsMap.values()).toSorted((a, b) =>
       sortDesc(a.versionDate, b.versionDate),
     ),
   };
   await writeFile(
-    pathJoin(projectRoot, "./generated/latest.json"),
-    JSON.stringify(latestJson),
+    pathJoin(projectRoot, "./generated/tweakedlatest.json"),
+    JSON.stringify(latestTweakedJson),
   );
-  console.log("Wrote to generated/latest.json");
+  console.log("Wrote to generated/tweakedlatest.json");
 }
