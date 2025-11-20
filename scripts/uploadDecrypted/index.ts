@@ -20,8 +20,12 @@ export const uploadDecrypted = async ({
   const filePath = resolvePath(filePathArgument);
   const ipaVersion = await getIpaVersionFilePath(filePath);
   const tagName = `${appName}_${ipaVersion}`;
-  if (basename(filePath).includes("eeveedecrypter")) {
+  if (basename(filePath).includes("-eeveedecrypter")) {
     optionalNotes = "eeveedecrypter";
+  } else if (basename(filePath).includes("-Decrypted")) {
+    optionalNotes = "armconverter";
+  } else if (basename(filePath).includes("_decrypt_")) {
+    optionalNotes = "anyipa";
   }
   const fileName = optionalNotes
     ? `${appName}_${ipaVersion}_${optionalNotes}.ipa`
