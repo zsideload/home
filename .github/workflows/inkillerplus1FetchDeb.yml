@@ -1,5 +1,7 @@
 name: iNKillerPlus1 fetch deb
 on:
+  schedule:
+    - cron: "0 23 * * *"
   workflow_dispatch:
 jobs:
   fetch-deb:
