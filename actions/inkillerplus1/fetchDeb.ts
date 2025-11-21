@@ -48,6 +48,7 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
         name: debFile.name,
         data: fileBuffer as unknown as string,
       });
+      console.log(debVersion, "uploaded");
     }
   }
 }
