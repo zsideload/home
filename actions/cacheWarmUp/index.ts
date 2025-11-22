@@ -20,11 +20,14 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
       if (!fileResponse.ok)
         return core.info(`cacheWarmUp error ${fileResponse.status}`);
 
-      if (fileResponse.body !== null) {
+      if (fileResponse.body) {
         let totalBytes = 0;
         for await (const chunk of fileResponse.body) {
           totalBytes += chunk.length;
         }
+        console.log("totalBytes:", totalBytes);
+      } else {
+        console.log("fileResponse.body is null");
       }
     }
   } else {
