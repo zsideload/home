@@ -3,7 +3,7 @@ on:
   workflow_call:
     inputs:
       asset_id:
-        type: number
+        type: string
         required: true
 jobs:
   cache-warm-up:
