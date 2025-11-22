@@ -1,0 +1,20 @@
+name: Cache Warm Up
+on:
+  workflow_call:
+    inputs:
+      asset_id:
+        type: number
+        required: true
+jobs:
+  cache-warm-up:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate JSON
+        uses: actions/github-script@v8
+        env:
+          ASSET_ID: ${{ inputs.asset_id }}
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          script: |
+            const { default: run } = await import('${{ github.workspace }}/actions/cacheWarmUp/index.ts')
+            return await run({ github })

@@ -46,7 +46,7 @@ export default async function ({
         tag: `${tweakInfo.appName}_${appVersion}`,
       })
     ).data.id;
-    await github.rest.repos.uploadReleaseAsset({
+    const uploadedAsset = await github.rest.repos.uploadReleaseAsset({
       ...assetRepo,
       release_id: destinationReleaseId,
       data: latestAssetFile as unknown as string,
@@ -54,6 +54,7 @@ export default async function ({
         ? `${tweakInfo.appName}_${appVersion}_${tweakName}_${tweakVersion}_${tweakInfo.workflow.optionalNotes}.ipa`
         : `${tweakInfo.appName}_${appVersion}_${tweakName}_${tweakVersion}.ipa`,
     });
+    return uploadedAsset.data.id;
   } else {
     return core.setFailed("5-download-and-upload failed");
   }
