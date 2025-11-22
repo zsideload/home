@@ -9,12 +9,10 @@ jobs:
   cache-warm-up:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/github-script@v8
-        env:
+      - env:
+          GH_TOKEN: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
           ASSET_ID: ${{ inputs.asset_id }}
-        with:
-          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
-          script: |
-            const { default: run } = await import('${{ github.workspace }}/actions/cacheWarmUp/index.ts')
-            return await run({ github })
+        run: |
+          time gh api --header "Accept: application/octet-stream" \
+            "/repos/zsideload/assets/releases/assets/$ASSET_ID" \
+            > /dev/null
