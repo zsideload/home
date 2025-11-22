@@ -55,6 +55,8 @@ jobs:
   downloadAndUpload:
     runs-on: ubuntu-latest
     needs: prepareAndDispatch
+    outputs:
+      asset_id: ${{ steps.run-script.outputs.result }}
     steps:
       - uses: actions/checkout@v5
       - name: Install pnpm
@@ -65,7 +67,8 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --prod --filter actions
-      - name: Download latest and upload
+      - id: run-script
+        name: Download latest and upload
         uses: actions/github-script@v8
         env:
           HEAD_SHA: ${{ needs.prepareAndDispatch.outputs.head_sha }}
@@ -83,3 +86,5 @@ jobs:
     needs: downloadAndUpload
     uses: ./.github/workflows/cacheWarmUp.yml
     secrets: inherit
+    with:
+      asset_id: ${{ needs.downloadAndUpload.outputs.asset_id }}
