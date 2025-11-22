@@ -69,18 +69,18 @@ app.get("/download/:id/:name?", async (c) => {
   const { id } = c.req.param();
   const octokit = c.get("octokit");
 
-  const assets = await octokit.request(
-    "HEAD /repos/{owner}/{repo}/releases/assets/{asset_id}",
-    {
-      ...assetRepo,
-      asset_id: +id,
-      headers: {
-        accept: "application/octet-stream",
-      },
+  const assets = await octokit.rest.repos.getReleaseAsset({
+    ...assetRepo,
+    asset_id: +id,
+    headers: {
+      accept: "application/octet-stream",
     },
-  );
+    request: {
+      redirect: "manual",
+    },
+  });
 
-  if (assets.url) return c.redirect(assets.url);
+  if (assets.headers.location) return c.redirect(assets.headers.location);
 });
 
 export default app;
