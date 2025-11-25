@@ -87,6 +87,8 @@ export default async function ({
       console.log("runConclusion:", runConclusion);
       if (runConclusion === "failure") {
         return core.setFailed("workflow run failure");
+      } else if (runConclusion === "cancelled") {
+        return core.setFailed("workflow run cancelled");
       }
       head_sha = latestRun.head_sha;
     } else {
