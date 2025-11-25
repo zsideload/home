@@ -95,7 +95,7 @@ export const tweaks: Tweaks<typeof apps> = {
       basehead: "master...BandarHL:BHTwitter:master",
     },
     workflow: {
-      branch: "master",
+      branch: "modified",
       name: "build.yml",
       inputs: ({ assetDirectDownloadURL }) => ({
         decrypted_ipa_url: assetDirectDownloadURL,
