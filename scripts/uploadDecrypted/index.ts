@@ -17,11 +17,15 @@ const filePath = resolvePath(filePathArgument);
 const ipaVersion = await getIpaVersionFilePath(filePath);
 const tagName = `${appName}_${ipaVersion}`;
 if (basename(filePath).includes("-eeveedecrypter")) {
-  optionalNotes = "eeveedecrypter";
+  optionalNotes = optionalNotes
+    ? `eeveedecrypter-${optionalNotes}`
+    : "eeveedecrypter";
 } else if (basename(filePath).includes("-Decrypted")) {
-  optionalNotes = "armconverter";
+  optionalNotes = optionalNotes
+    ? `armconverter-${optionalNotes}`
+    : "armconverter";
 } else if (basename(filePath).includes("_decrypt_")) {
-  optionalNotes = "anyipa";
+  optionalNotes = optionalNotes ? `anyipa-${optionalNotes}` : "anyipa";
 }
 const fileName = optionalNotes
   ? `${appName}_${ipaVersion}_${optionalNotes}.ipa`
