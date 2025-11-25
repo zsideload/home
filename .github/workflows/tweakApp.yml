@@ -82,9 +82,3 @@ jobs:
     needs: downloadAndUpload
     uses: ./.github/workflows/generateJsonAndDeploy.yml
     secrets: inherit
-  cacheWarmUp:
-    needs: downloadAndUpload
-    uses: ./.github/workflows/cacheWarmUp.yml
-    secrets: inherit
-    with:
-      asset_id: ${{ needs.downloadAndUpload.outputs.asset_id }}
