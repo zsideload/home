@@ -29,6 +29,9 @@ export const apps = {
   X: {
     bundleIdentifier: "com.atebits.Tweetie2",
   },
+  MovieApp: {
+    bundleIdentifier: "zsideload.movieapp",
+  },
 } as const satisfies Apps;
 
 export const tweaks: Tweaks<typeof apps> = {

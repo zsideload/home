@@ -9,7 +9,8 @@
     "decrypted:instagram": "node --env-file .env scripts/uploadDecrypted/index.ts Instagram",
     "decrypted:x": "node --env-file .env scripts/uploadDecrypted/index.ts X",
     "decrypted:youtube": "node --env-file .env scripts/uploadDecrypted/index.ts YouTube",
-    "decrypted:youtubemusic": "node --env-file .env scripts/uploadDecrypted/index.ts YouTubeMusic"
+    "decrypted:youtubemusic": "node --env-file .env scripts/uploadDecrypted/index.ts YouTubeMusic",
+    "decrypted:movieapp": "node --env-file .env scripts/uploadDecrypted/index.ts MovieApp"
   },
   "packageManager": "pnpm@10.18.2",
   "devDependencies": {
