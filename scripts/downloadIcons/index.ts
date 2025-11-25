@@ -5,15 +5,13 @@ import { projectRoot } from "../../actions/lib/path.ts";
 
 const fileList = fs.readdirSync(pathJoin(projectRoot, "./web/public/icon"));
 
-for (const { bundleIdentifier } of Object.values(apps)) {
-  const fileListFindResult = fileList.find(
-    (x) => x === `${bundleIdentifier}.jpg`,
-  );
+for (const [appName, { bundleIdentifier }] of Object.entries(apps)) {
+  const fileListFindResult = fileList.find((x) => x === `${appName}.jpg`);
   if (fileListFindResult) {
-    console.log("file exists", bundleIdentifier, fileListFindResult);
+    console.log("file exists", appName, fileListFindResult);
     continue;
   } else {
-    console.log("file doesn't exists", bundleIdentifier);
+    console.log("file doesn't exists", appName);
     const fetchApi = await fetch(
       `https://itunes.apple.com/lookup?bundleId=${bundleIdentifier}`,
     );
@@ -27,7 +25,7 @@ for (const { bundleIdentifier } of Object.values(apps)) {
         "/200x200ia-75.jpg";
       const fetchIcon = await fetch(wantedUrl);
       fs.writeFileSync(
-        pathJoin(projectRoot, "./web/public/icon/", `${bundleIdentifier}.jpg`),
+        pathJoin(projectRoot, "./web/public/icon/", `${appName}.jpg`),
         Buffer.from(await fetchIcon.arrayBuffer()),
       );
     }

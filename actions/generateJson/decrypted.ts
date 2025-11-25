@@ -31,7 +31,7 @@ export async function generateDecryptedJsons(
       version: appVersion,
       localizedDescription: asset.name,
       downloadURL: `${webBaseUrlWithBasicAuth}/download/${asset.id}/${asset.name}`,
-      iconURL: `${webBaseUrl}/icon/${appInfo.bundleIdentifier}.jpg`,
+      iconURL: `${webBaseUrl}/icon/${appName}.jpg`,
       versionDate: asset.created_at,
       size: asset.size,
     };
