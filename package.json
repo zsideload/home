@@ -2,7 +2,7 @@
   "name": "home",
   "type": "module",
   "scripts": {
-    "dev": "pnpm run --filter web dev",
+    "web:dev": "pnpm run --filter web dev",
     "icons": "node scripts/downloadIcons/index.ts",
     "outdated": "node --env-file .env scripts/checkOutdated/index.ts",
     "decrypted:apollo": "node --env-file .env scripts/uploadDecrypted/index.ts Apollo",
