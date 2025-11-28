@@ -7,6 +7,7 @@
     "outdated": "node --env-file .env scripts/checkOutdated/index.ts",
     "decrypted:apollo": "node --env-file .env scripts/uploadDecrypted/index.ts Apollo",
     "decrypted:facebook": "node --env-file .env scripts/uploadDecrypted/index.ts Facebook",
+    "decrypted:infuse": "node --env-file .env scripts/uploadDecrypted/index.ts Infuse",
     "decrypted:instagram": "node --env-file .env scripts/uploadDecrypted/index.ts Instagram",
     "decrypted:x": "node --env-file .env scripts/uploadDecrypted/index.ts X",
     "decrypted:youtube": "node --env-file .env scripts/uploadDecrypted/index.ts YouTube",

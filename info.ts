@@ -17,6 +17,9 @@ export const apps = {
   Facebook: {
     bundleIdentifier: "com.facebook.Facebook",
   },
+  Infuse: {
+    bundleIdentifier: "com.firecore.infuse",
+  },
   Instagram: {
     bundleIdentifier: "com.burbn.instagram",
   },
@@ -140,6 +143,23 @@ export const tweaks: Tweaks<typeof apps> = {
     workflow: {
       branch: "main",
       name: "inkillerplus1.yml",
+      inputs: ({ assetDirectDownloadURL }) => ({
+        ipa_url: assetDirectDownloadURL,
+      }),
+      getTweakVersion: async ({ builtFileName }) =>
+        builtFileName.split("_")[1].replace(".ipa", ""),
+    },
+  },
+  InfusePlus: {
+    appName: "Infuse",
+    actionRepo: {
+      owner: "zsideload",
+      repo: "InfusePlus",
+      basehead: "main...dayanch96:InfusePlus:main",
+    },
+    workflow: {
+      branch: "main",
+      name: "main.yml",
       inputs: ({ assetDirectDownloadURL }) => ({
         ipa_url: assetDirectDownloadURL,
       }),

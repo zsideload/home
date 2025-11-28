@@ -10,6 +10,7 @@ on:
         options:
           - BHTwitter
           - FacebookGlow
+          - InfusePlus
           - YTLite
           - YTMusicUltimate
       appVersion:
