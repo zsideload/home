@@ -1,0 +1,17 @@
+name: Check Outdated
+on:
+  workflow_dispatch:
+jobs:
+  check-outdated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/github-script@v8
+        env:
+          WEB_BASE_URL: ${{ secrets.WEB_BASE_URL }}
+          WEB_USERNAME: ${{ secrets.WEB_USERNAME }}
+          WEB_PASSWORD: ${{ secrets.WEB_PASSWORD }}
+        with:
+          github-token: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
+          script: |
+            await import('${{ github.workspace }}/scripts/checkOutdated/index.ts')

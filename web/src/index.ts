@@ -6,7 +6,6 @@ import decryptedLatestJson from "../../generated/decryptedlatest.json" with { ty
 import tweakedJson from "../../generated/tweaked.json" with { type: "json" };
 import tweakedLatestJson from "../../generated/tweakedlatest.json" with { type: "json" };
 import { assetRepo } from "../../info";
-import { checkOutdated } from "../../scripts/checkOutdated/helper";
 
 const app = new Hono<{
   Bindings: CloudflareBindings;
@@ -14,14 +13,6 @@ const app = new Hono<{
     octokit: Octokit;
   };
 }>();
-
-app.get("/outdated", async (c) => {
-  const result = await checkOutdated({
-    decryptedlatest: decryptedLatestJson,
-    tweakedlatest: tweakedLatestJson,
-  });
-  return c.json(result);
-});
 
 // --- Routes after this require authentication --- //
 app.use(
