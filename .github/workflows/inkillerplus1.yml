@@ -59,6 +59,7 @@ jobs:
           tag_name=$(gh release view --repo $repo_name --json tagName --jq ".tagName")
           echo "TWEAK_TAG=$tag_name" >> "$GITHUB_ENV"
           gh release download --repo $repo_name --pattern "*.deb" --output "${{ github.workspace }}/tweak.deb"
+          echo "::add-mask::iNKPlusCrack"
           gh release download --repo $repo_name data --pattern "iNKPlusCrack.dylib"
       - name: Inject tweaks into IPA
         run: cyan -i decrypted.ipa -o "app_$TWEAK_TAG.ipa" -c 9 -f tweak.deb iNKPlusCrack.dylib
