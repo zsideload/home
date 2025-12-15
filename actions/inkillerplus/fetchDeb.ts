@@ -1,6 +1,6 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
 import type { GitHubRepo } from "../../info.types.ts";
-import { inkillerplus1Repo } from "./config.ts";
+import { inkillerplusAssetsRepo } from "./config.ts";
 import { sortAsc } from "../lib/compare.ts";
 
 const debRepo: GitHubRepo = { owner: "iKarwan", repo: "ikarwan.github.io" };
@@ -26,7 +26,7 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
 
     try {
       await github.rest.repos.getReleaseByTag({
-        ...inkillerplus1Repo,
+        ...inkillerplusAssetsRepo,
         tag: debVersion,
       });
       console.log(debVersion, "exists");
@@ -39,11 +39,11 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
       if (!fetchFile.ok) return core.setFailed("fetchFile failed");
       const fileBuffer = Buffer.from(await fetchFile.arrayBuffer());
       const createRelease = await github.rest.repos.createRelease({
-        ...inkillerplus1Repo,
+        ...inkillerplusAssetsRepo,
         tag_name: debVersion,
       });
       await github.rest.repos.uploadReleaseAsset({
-        ...inkillerplus1Repo,
+        ...inkillerplusAssetsRepo,
         release_id: createRelease.data.id,
         name: debFile.name,
         data: fileBuffer as unknown as string,

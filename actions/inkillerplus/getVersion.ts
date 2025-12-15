@@ -1,6 +1,6 @@
 import type { AsyncFunctionArguments } from "@actions/github-script";
 import type { SideloadRepoJson } from "../generateJson/types.ts";
-import { inkillerplus1Repo } from "./config.ts";
+import { inkillerplusAssetsRepo } from "./config.ts";
 
 export default async function ({ github, core }: AsyncFunctionArguments) {
   const fetchRepo = await fetch("https://ikghd.site/repo.json");
@@ -20,7 +20,7 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
   if (tweakVersion) {
     try {
       await github.rest.repos.getReleaseByTag({
-        ...inkillerplus1Repo,
+        ...inkillerplusAssetsRepo,
         tag: tweakVersion,
       });
       return appVersion;
