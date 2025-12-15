@@ -46,7 +46,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.ACTIONS_GITHUB_TOKEN }}
         run: |
-          repo_name=zsideload/theta-assets
+          repo_name=zsideload/Theta-assets
           tag_name=$(gh release view --repo $repo_name --json tagName --jq ".tagName")
           echo "TWEAK_TAG=$tag_name" >> "$GITHUB_ENV"
           gh release download --repo $repo_name --pattern "*.deb" --output "${{ github.workspace }}/tweak.deb"
