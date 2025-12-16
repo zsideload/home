@@ -1,4 +1,4 @@
-import { aNewerThanB } from "../../actions/lib/compare.ts";
+import { aNewerThanB, sortDesc } from "../../actions/lib/compare.ts";
 import type { SideloadRepoJson } from "../../actions/generateJson/types.ts";
 import { apps } from "../../info.ts";
 type AppName = keyof typeof apps;
@@ -46,9 +46,13 @@ export const checkOutdated = async ({
     const decryptedInfo = decryptedlatest.apps.find(
       (x) => x.bundleIdentifier === appInfo.bundleIdentifier,
     );
-    const tweakedInfo = tweakedlatest.apps.find(
+    const tweakedInfoAll = tweakedlatest.apps.filter(
       (x) => x.bundleIdentifier === appInfo.bundleIdentifier,
     );
+    // Use the newest version of all the tweaked apps of the same app
+    const tweakedInfo = tweakedInfoAll.toSorted((a, b) =>
+      sortDesc(a.version, b.version),
+    )[0];
     const appStoreInfo = await getAppstoreInfo(
       appName,
       appInfo.bundleIdentifier,
