@@ -11,6 +11,6 @@
 		"octokit": "catalog:"
 	},
 	"devDependencies": {
-		"wrangler": "^4.54.0"
+		"wrangler": "^4.55.0"
 	}
 }
