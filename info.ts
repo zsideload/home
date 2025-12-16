@@ -23,6 +23,10 @@ export const apps = {
   Instagram: {
     bundleIdentifier: "com.burbn.instagram",
   },
+  TikTok: {
+    bundleIdentifier: "com.zhiliaoapp.musically",
+    // Global Version bundleIdentifier: "com.ss.iphone.ugc.Ame"
+  },
   YouTube: {
     bundleIdentifier: "com.google.ios.youtube",
   },
@@ -186,6 +190,19 @@ export const tweaks: Tweaks<typeof apps> = {
     workflow: {
       branch: "main",
       name: "main.yml",
+      inputs: ({ assetDirectDownloadURL }) => ({
+        ipa_url: assetDirectDownloadURL,
+      }),
+      getTweakVersion: async ({ builtFileName }) =>
+        builtFileName.split("_")[1].replace(".ipa", ""),
+    },
+  },
+  RXTikTok: {
+    appName: "TikTok",
+    actionRepo: actionRepo,
+    workflow: {
+      branch: "main",
+      name: "rxtiktok.yml",
       inputs: ({ assetDirectDownloadURL }) => ({
         ipa_url: assetDirectDownloadURL,
       }),
