@@ -42,6 +42,11 @@ const release = await octokit.rest.repos.createRelease({
   tag_name: tagName,
 });
 
+// const release = await octokit.rest.repos.getReleaseByTag({
+//   ...assetRepo,
+//   tag: tagName,
+// });
+
 if (!release.data.id) throw new Error("createRelease error");
 
 const asset = await octokit.rest.repos.uploadReleaseAsset({
