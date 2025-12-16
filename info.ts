@@ -27,14 +27,14 @@ export const apps = {
     bundleIdentifier: "com.zhiliaoapp.musically",
     // Global Version bundleIdentifier: "com.ss.iphone.ugc.Ame"
   },
+  X: {
+    bundleIdentifier: "com.atebits.Tweetie2",
+  },
   YouTube: {
     bundleIdentifier: "com.google.ios.youtube",
   },
   YouTubeMusic: {
     bundleIdentifier: "com.google.ios.youtubemusic",
-  },
-  X: {
-    bundleIdentifier: "com.atebits.Tweetie2",
   },
   MovieApp: {
     bundleIdentifier: "zsideload.movieapp",
