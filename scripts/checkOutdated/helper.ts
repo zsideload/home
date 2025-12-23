@@ -39,9 +39,9 @@ export const checkOutdated = async ({
   tweakedlatest: SideloadRepoJson;
   log?: boolean;
 }) => {
-  const resultTable = [];
-  for (const appName of Object.keys(apps)) {
+  const promises = Object.keys(apps).map(async (appName) => {
     if (log) console.log("Checking", appName);
+
     const appInfo = apps[appName as keyof typeof apps];
     const decryptedInfo = decryptedlatest.apps.find(
       (x) => x.bundleIdentifier === appInfo.bundleIdentifier,
@@ -57,7 +57,7 @@ export const checkOutdated = async ({
       appName,
       appInfo.bundleIdentifier,
     );
-    resultTable.push({
+    return {
       app: appName,
       appstore: appStoreInfo?.version,
       decrypted: decryptedInfo?.version,
@@ -79,8 +79,9 @@ export const checkOutdated = async ({
             )
           : undefined,
       url: appStoreInfo?.url.replace("?uo=4", ""),
-    });
-  }
+    };
+  });
 
+  const resultTable = await Promise.all(promises);
   return resultTable;
 };

@@ -29,7 +29,6 @@ const tweakedlatest = (await fetchTweakedLatest.json()) as SideloadRepoJson;
 const resultTable = await checkOutdated({
   decryptedlatest,
   tweakedlatest,
-  log: true,
 });
 
 console.table(resultTable);
