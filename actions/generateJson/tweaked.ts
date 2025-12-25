@@ -34,6 +34,7 @@ export async function genereateTweakedJsons(
       iconURL: `${webBaseUrl}/icon/${appName}.jpg`,
       versionDate: asset.created_at,
       size: asset.size,
+      developerName: "",
     };
     // all versions
     tweakedApps.push(appJson);
