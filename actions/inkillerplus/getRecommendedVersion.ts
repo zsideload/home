@@ -23,7 +23,9 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
         ...inkillerplusAssetsRepo,
         tag: tweakVersion,
       });
-      return appVersion;
+      core.setOutput("appVersion", appVersion);
+      core.setOutput("tweakVersion", tweakVersion);
+      return;
     } catch (error) {
       return core.setFailed("checkIfWeHaveTweakVersion failed");
     }
