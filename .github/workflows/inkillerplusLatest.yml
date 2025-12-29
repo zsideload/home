@@ -1,4 +1,5 @@
 name: iNKillerPlusLatest
+run-name: ${{ inputs.appVersion }} ${{ inputs.tweakVersion }}
 on:
   workflow_dispatch:
     inputs:
