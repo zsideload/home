@@ -141,7 +141,20 @@ export const tweaks: Tweaks<typeof apps> = {
         builtFileName.split("_")[1].replace(".ipa", "").replace("v", ""),
     },
   },
-  iNKillerPlus: {
+  iNKillerPlusRecommended: {
+    appName: "Instagram",
+    actionRepo: actionRepo,
+    workflow: {
+      branch: "main",
+      name: "inkillerplus.yml",
+      inputs: ({ assetDirectDownloadURL }) => ({
+        ipa_url: assetDirectDownloadURL,
+      }),
+      getTweakVersion: async ({ builtFileName }) =>
+        builtFileName.split("_")[1].replace(".ipa", ""),
+    },
+  },
+  iNKillerPlusLatest: {
     appName: "Instagram",
     actionRepo: actionRepo,
     workflow: {

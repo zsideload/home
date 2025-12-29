@@ -28,5 +28,5 @@ export default async function ({ github, core }: AsyncFunctionArguments) {
       return core.setFailed("checkIfWeHaveTweakVersion failed");
     }
   }
-  return core.setFailed("getVersion failed");
+  return core.setFailed("getRecommendedVersion failed");
 }
