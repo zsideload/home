@@ -60,9 +60,9 @@ jobs:
             tag_name="$INPUT_VERSION"
           fi
           echo "TWEAK_TAG=$tag_name" >> "$GITHUB_ENV"
-          gh release download "$tag_name" --repo $repo_name --pattern "*.deb" --output "${{ github.workspace }}/tweak.deb"
+          gh release download "$tag_name" --repo $repo_name --pattern "*.dylib" --output "${{ github.workspace }}/tweak.dylib"
       - name: Inject tweaks into IPA
-        run: cyan -i decrypted.ipa -o "app_$TWEAK_TAG.ipa" -c 9 -f tweak.deb
+        run: cyan -i decrypted.ipa -o "app_$TWEAK_TAG.ipa" -c 9 -f tweak.dylib
       - uses: actions/github-script@v8
         env:
           TWEAK_NAME: InstaLRD
