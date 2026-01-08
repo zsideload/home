@@ -3,7 +3,7 @@ import type { SideloadRepoJson } from "../generateJson/types.ts";
 import { inkillerplusAssetsRepo } from "./config.ts";
 
 export default async function ({ github, core }: AsyncFunctionArguments) {
-  const fetchRepo = await fetch("https://ikghd.site/repo.json");
+  const fetchRepo = await fetch("https://repo.ikghd.me/repo.json");
   if (!fetchRepo.ok) return core.setFailed("fetchRepo failed");
   const repoData = (await fetchRepo.json()) as SideloadRepoJson;
   const instagramData = repoData.apps.filter((x) => x.name === "Instagram");
