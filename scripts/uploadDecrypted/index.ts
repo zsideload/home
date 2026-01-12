@@ -26,6 +26,10 @@ if (basename(filePath).includes("-eeveedecrypter")) {
     : "armconverter";
 } else if (basename(filePath).includes("_decrypt_")) {
   optionalNotes = optionalNotes ? `anyipa-${optionalNotes}` : "anyipa";
+} else if (basename(filePath).includes("-AppAssassin")) {
+  optionalNotes = optionalNotes
+    ? `appassassin-${optionalNotes}`
+    : "appassassin";
 }
 const fileName = optionalNotes
   ? `${appName}_${ipaVersion}_${optionalNotes}.ipa`
