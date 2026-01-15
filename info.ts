@@ -206,6 +206,19 @@ export const tweaks: Tweaks<typeof apps> = {
         builtFileName.split("_")[1].replace(".ipa", ""),
     },
   },
+  Regram1: {
+    appName: "Instagram",
+    actionRepo: actionRepo,
+    workflow: {
+      branch: "main",
+      name: "regram1.yml",
+      inputs: ({ assetDirectDownloadURL }) => ({
+        ipa_url: assetDirectDownloadURL,
+      }),
+      getTweakVersion: async ({ builtFileName }) =>
+        builtFileName.split("_")[1].replace(".ipa", ""),
+    },
+  },
   InfusePlus: {
     appName: "Infuse",
     actionRepo: {
