@@ -60,10 +60,10 @@ jobs:
             tag_name="$INPUT_VERSION"
           fi
           echo "TWEAK_TAG=$tag_name" >> "$GITHUB_ENV"
-          gh release download "$tag_name" --repo $repo_name --pattern "com.fouadraheb.regram_2.4_iphoneos-arm64.deb" --output "${{ github.workspace }}/a.deb"
-          gh release download "$tag_name" --repo $repo_name --pattern "com.blatant.*-arm64.deb" --output "${{ github.workspace }}/b.deb"
+          gh release download "$tag_name" --repo $repo_name --pattern "$tag_name.zip" --output "${{ github.workspace }}/tweak.zip"
+          unzip tweak.zip
       - name: Inject tweaks into IPA
-        run: cyan -i decrypted.ipa -o "app_$TWEAK_TAG.ipa" -c 9 -f a.deb b.deb
+        run: cyan -i decrypted.ipa -o "app_$TWEAK_TAG.ipa" -c 9 -f Regram.dylib Regram.bundle com.blatant.regramcrack_1.0_iphoneos-arm.deb
       - uses: actions/github-script@v8
         env:
           TWEAK_NAME: Regram1
