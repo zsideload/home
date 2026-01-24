@@ -53,8 +53,8 @@ jobs:
         id: liquid_glass
         run: |
           mydir=${{ github.workspace }}/ApolloICA
-          chmod +x $mydir/liquid_glass.sh
-          $mydir/liquid_glass.sh "App_${{ env.TWEAK_TAG }}.ipa" -o "AppLG_${{ env.TWEAK_TAG }}.ipa"
+          chmod +x $mydir/patch.sh
+          $mydir/patch.sh --liquid-glass "App_${{ env.TWEAK_TAG }}.ipa" --output "AppLG_${{ env.TWEAK_TAG }}.ipa"
       - uses: actions/github-script@v8
         env:
           TWEAK_NAME: ApolloICA
