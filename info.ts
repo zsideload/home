@@ -219,6 +219,30 @@ export const tweaks: Tweaks<typeof apps> = {
         builtFileName.split("_")[1].replace(".ipa", ""),
     },
   },
+  SCInsta: {
+    appName: "Instagram",
+    actionRepo: {
+      owner: "zsideload",
+      repo: "SCInsta",
+      basehead: "dev...SoCuul:SCInsta:dev",
+    },
+    workflow: {
+      branch: "dev",
+      name: "buildapp.yml",
+      inputs: ({ assetDirectDownloadURL }) => ({
+        decrypted_instagram_url: assetDirectDownloadURL,
+        upload_artifact: false,
+      }),
+      getTweakVersion: async ({ builtFileName, head_sha }) => {
+        const version = builtFileName
+          .split("_")[2]
+          .replace(".ipa", "")
+          .replace("v", "");
+        const partialHash = head_sha?.slice(0, 7);
+        return `${version}-dev.${partialHash}`;
+      },
+    },
+  },
   InfusePlus: {
     appName: "Infuse",
     actionRepo: {
