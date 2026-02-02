@@ -233,13 +233,13 @@ export const tweaks: Tweaks<typeof apps> = {
         decrypted_instagram_url: assetDirectDownloadURL,
         upload_artifact: false,
       }),
-      getTweakVersion: async ({ builtFileName, head_sha }) => {
+      getTweakVersion: async ({ builtFileName, head_sha, run_number }) => {
         const version = builtFileName
           .split("_")[2]
           .replace(".ipa", "")
           .replace("v", "");
-        const partialHash = head_sha?.slice(0, 7);
-        return `${version}-dev.${partialHash}`;
+        const shortsha = head_sha?.slice(0, 7);
+        return `${version}-dev.${run_number}+g${shortsha}`;
       },
     },
   },
