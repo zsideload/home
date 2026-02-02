@@ -66,6 +66,7 @@ export default async function ({
   console.log("::group::wait for workflow");
   let runConclusion = null;
   let head_sha = null;
+  let run_number = null;
   const tenMinutesAgo = new Date();
   tenMinutesAgo.setMinutes(tenMinutesAgo.getMinutes() - 10);
   const fifteenSeconds = 15_000;
@@ -91,6 +92,7 @@ export default async function ({
         return core.setFailed("workflow run cancelled");
       }
       head_sha = latestRun.head_sha;
+      run_number = latestRun.run_number;
     } else {
       return core.setFailed("workflow run not found");
     }
@@ -98,5 +100,6 @@ export default async function ({
   console.log("::endgroup::");
   //#endregion
 
-  return head_sha;
+  core.setOutput("head_sha", head_sha);
+  core.setOutput("run_number", run_number);
 }

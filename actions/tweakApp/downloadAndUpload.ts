@@ -37,6 +37,7 @@ export default async function ({
     const tweakVersion = await tweakInfo.workflow.getTweakVersion({
       builtFileName: latestAsset.name,
       head_sha: process.env.HEAD_SHA,
+      run_number: process.env.RUN_NUMBER,
     });
 
     // Upload

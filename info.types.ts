@@ -28,9 +28,11 @@ export type Tweaks<T extends Apps> = {
       getTweakVersion: ({
         builtFileName,
         head_sha,
+        run_number,
       }: {
         builtFileName: string;
         head_sha?: string;
+        run_number?: string;
       }) => Promise<string>;
     };
   };
