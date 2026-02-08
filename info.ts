@@ -227,7 +227,7 @@ export const tweaks: Tweaks<typeof apps> = {
       basehead: "dev...SoCuul:SCInsta:dev",
     },
     workflow: {
-      branch: "dev",
+      branch: "main",
       name: "buildapp.yml",
       inputs: ({ assetDirectDownloadURL }) => ({
         decrypted_instagram_url: assetDirectDownloadURL,
@@ -239,7 +239,7 @@ export const tweaks: Tweaks<typeof apps> = {
           .replace(".ipa", "")
           .replace("v", "");
         const shortsha = head_sha?.slice(0, 7);
-        return `${version}-dev.${run_number}+g${shortsha}`;
+        return `${version}.${run_number}+g${shortsha}`;
       },
     },
   },
