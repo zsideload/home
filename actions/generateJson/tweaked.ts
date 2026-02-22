@@ -40,7 +40,7 @@ export async function genereateTweakedJsons(
     tweakedApps.push(appJson);
     // latest version
     const current = latestTweakedAppsMap.get(tweakName);
-    if (aNewerThanB(asset.name, current?.localizedDescription || "")) {
+    if (!current || aNewerThanB(asset.name, current.localizedDescription)) {
       latestTweakedAppsMap.set(tweakName, appJson);
     }
   }

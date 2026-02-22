@@ -39,7 +39,7 @@ export async function generateDecryptedJsons(
     decryptedApps.push(appJson);
     // latest version
     const current = latestdecryptedAppsMap.get(appName);
-    if (aNewerThanB(appVersion, current?.version || "")) {
+    if (!current || aNewerThanB(appVersion, current.version)) {
       latestdecryptedAppsMap.set(appName, appJson);
     }
   }
