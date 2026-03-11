@@ -224,7 +224,7 @@ export const tweaks: Tweaks<typeof apps> = {
     actionRepo: {
       owner: "zsideload",
       repo: "SCInsta",
-      basehead: "dev...SoCuul:SCInsta:dev",
+      basehead: "main...SoCuul:SCInsta:main",
     },
     workflow: {
       branch: "main",
