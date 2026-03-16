@@ -58,6 +58,7 @@ export const tweaks: Tweaks<typeof apps> = {
         enable_ytuhd: false,
         enable_yq: false,
         enable_ryd: false,
+        enable_ytabc: false,
         enable_demc: false,
         ipa_url: assetDirectDownloadURL,
       }),
