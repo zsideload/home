@@ -52,14 +52,14 @@ export const tweaks: Tweaks<typeof apps> = {
     workflow: {
       branch: "main",
       name: "main.yml",
-      optionalNotes: "WithYouPiPOnly",
+      optionalNotes: "EnableAll",
       inputs: ({ assetDirectDownloadURL }) => ({
         enable_youpip: true,
-        enable_ytuhd: false,
-        enable_yq: false,
-        enable_ryd: false,
-        enable_ytabc: false,
-        enable_demc: false,
+        enable_ytuhd: true,
+        enable_yq: true,
+        enable_ryd: true,
+        enable_ytabc: true,
+        enable_demc: true,
         ipa_url: assetDirectDownloadURL,
       }),
       getTweakVersion: async ({ builtFileName }) =>
