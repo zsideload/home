@@ -8,6 +8,16 @@ import { projectRoot } from "../lib/path.ts";
 import type { parseReleases } from "./parseReleases.ts";
 import type { SideloadRepoJson } from "./types.ts";
 
+const formatter = new Intl.DateTimeFormat("en-TH", {
+  timeZone: "Asia/Bangkok",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+});
+
 /**
  * `tweaked.json` = tweaked apps; all versions
  * `tweakedlatest.json` = tweaked apps; latest versions
@@ -29,7 +39,9 @@ export async function genereateTweakedJsons(
       name: tweakName,
       bundleIdentifier: appInfo.bundleIdentifier,
       version: `${appVersion}_${tweakVersion}`,
-      localizedDescription: asset.name,
+      localizedDescription: `${asset.name}\n${
+        asset.created_at ? formatter.format(new Date(asset.created_at)) : ""
+      }`,
       downloadURL: `${webBaseUrlWithBasicAuth}/download/${asset.id}/${asset.name}`,
       iconURL: `${webBaseUrl}/icon/${appName}.jpg`,
       versionDate: asset.created_at,
